@@ -1,1 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coin Aska</title>
+  <!-- staging -->
+<!--   <script src="https://stg.platform.onmeta.in/onmeta-sdk.js"></script> -->
+  <!-- production -->
+   <script src="https://platform.onmeta.in/onmeta-sdk.js"></script>
+</head>
+
+<body>
+  <div id="widget"></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    let walletAddress = "0x12ccD96203016540ca71A15e106E733e0eDB1bA6";
+    let userEmail = params.get("email");
+    let merchantOrderId = params.get("merchantOrderId");
+    
+    let createWidget = new onMetaWidget({
+      elementId: "widget",
+      isAndroid:"enabled",
+      apiKey: "d36de2f4-67a9-46b0-9f89-1e5095a64d1d",   //Production
+//    apiKey: "ab3a0e79-2233-4eb1-be33-b4e991a8e305",   //Staging
+      walletAddress: walletAddress,
+      userEmail: userEmail,
+      merchantOrderId: merchantOrderId
+    });
+    createWidget.init();
+
+    createWidget.on("ORDER_COMPLETED_EVENTS", (e) => {
+      console.log(JSON.stringify({ ...e, merchantOrderId: merchantOrderId }));
+    });
+    
+     createWidget.on("ALL_EVENTS", (data) => {
+      console.log(JSON.stringify({ ...e, merchantOrderId: merchantOrderId }));
+    });
+
+    createWidget.on("ACTION_EVENTS", (e) => {
+      if(e && e.data && (Object.keys(e.data).length>0) && e.data.type==='UPI_FAST'){
+      console.log(`link-${e.data.link}`);
+      }else{
+      console.log(e.text);
+      }
+      });
+
+  </script>
+</body>
+
+</html>
