@@ -36,8 +36,8 @@
       console.log(JSON.stringify({ ...e, merchantOrderId: merchantOrderId }));
     });
     
-     createWidget.on("ALL_EVENTS", (data) => {
-      console.log(JSON.stringify({ ...e, merchantOrderId: merchantOrderId }));
+     createWidget.on("ORDER_EVENTS", (data) => {
+      console.log(JSON.stringify({ ...data, merchantOrderId: merchantOrderId }));
     });
 
     createWidget.on("ACTION_EVENTS", (e) => {
